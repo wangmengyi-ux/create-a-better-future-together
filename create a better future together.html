@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMY&FJM</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: url('your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            color: #ff69b4;
+        }
+
+        .timer {
+            font-size: 4em;
+            color: #ff1493;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border: 5px solid #ff69b4;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .heart {
+            color: #ff1493;
+            font-size: 2em;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .content-row {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .carousel {
+            width: 48%;
+            position: relative;
+            text-align: center;
+        }
+
+        .carousel h2 {
+            margin: 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .carousel img {
+            width: 100%;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .carousel img.active {
+            display: block;
+        }
+
+        .video-container {
+            width: 48%;
+        }
+
+        .video-container h2 {
+            margin: 0 0 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        .text-content {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #333;
+        }
+
+        .background-music {
+            display: none;
+        }
+
+        .textbox {
+            width: 90%;
+            max-width: 1000px;
+            height: 150px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #333;
+            font-size: 1.5em;
+            line-height: 1.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>我们在一起的时间</h1>
+    <div class="heart">❤️</div>
+    <div class="timer" id="timer"></div>
+    
+    <div class="text-content">
+        <h2>纪念我们的每一个瞬间</h2>
+        <p>自从2024年3月7日22时30分那一刻起，我们的故事开始了。每一天都充满了爱和欢笑。记录我们一起走过的美好时光。</p>
+    </div>
+
+    <div class="content-row">
+        <div class="carousel" id="carousel">
+            <h2>美好瞬间</h2>
+            <img src="image1.jpg" class="active">
+            <img src="image2.jpg">
+            <img src="image3.jpg">
+            <img src="image4.jpg">
+            <img src="image5.jpg">
+            <img src="image6.jpg">
+        </div>
+
+        <div class="video-container">
+            <h2>美好时刻</h2>
+            <video controls>
+                <source src="your-video.mp4" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+        </div>
+    </div>
+
+    <div class="textbox" id="textbox"></div>
+
+    <audio id="background-music" loop>
+        <source src="your-music.mp3" type="audio/mp3">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <script>
+        function updateTimer() {
+            const startTime = new Date(2024, 2, 7, 22, 30); // 注意：月份从0开始，所以3月是2
+            const now = new Date();
+            const diff = now - startTime;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML = `
+                ${days} 天 ${hours} 小时 ${minutes} 分钟 ${seconds} 秒
+            `;
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        let currentImageIndex = 0;
+        const images = document.querySelectorAll('#carousel img');
+
+        function showNextImage() {
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 3000); // 每3秒切换一张图片
+
+        let currentTextIndex = 0;
+        const texts = [
+            "在未来，希望我们可以一起克服各种问题，在不高兴的时候、遇到困难的时候相互支持对方。",
+            "及时提出我们的需求，有的时候我感觉我们可能会有一些顾虑而不说心里想的事情。",
+            "我觉得我们在未来会慢慢敞开心扉，无所顾虑。",
+            "还有一件很重要的事。",
+            "我们一定会有美好的未来。",
+            "祝我们一起都发论文，我们都顺利毕业，找到一份可以在一起的好工作。。",
+            "未来可期。"
+        ];
+
+        function showNextText() {
+            document.getElementById('textbox').textContent = texts[currentTextIndex];
+            currentTextIndex = (currentTextIndex + 1) % texts.length;
+        }
+
+        setInterval(showNextText, 5000); // 每5秒切换一段文字
+
+        function playBackgroundMusic() {
+            const audio = document.getElementById('background-music');
+            audio.play().catch(() => {
+                // 自动播放被阻止
+                const userAction = document.createElement('div');
+                userAction.innerHTML = '<button onclick="playBackgroundMusic()">点一下</button>';
+                document.body.appendChild(userAction);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', playBackgroundMusic);
+    </script>
+</body>
+</html>
